@@ -1,0 +1,27 @@
+GET http://localhost:5000/users
+
+###
+GET http://localhost:5000/users/6317c9f92e79ab4295aef14c
+
+###
+POST  http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "nama" : "tes 5",
+    "harga" : "99999",
+    "stock" : "10"
+}
+
+###
+PATCH  http://localhost:5000/users/6317c9f92e79ab4295aef14c
+Content-Type: application/json
+
+{
+    "name" : "baru ganti",
+    "email" : "abiganti@gmail.com",
+    "gender" : "male"
+}
+
+###
+DELETE   http://localhost:5000/users/6317c9f92e79ab4295aef14c
