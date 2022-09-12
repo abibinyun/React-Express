@@ -1,4 +1,3 @@
-// import { Collection } from "mongoose";
 import User from "../models/UserModel.js";
 
 export const getUsers = async (req, res) => {
@@ -13,15 +12,6 @@ export const getUsers = async (req, res) => {
 export const getUsersById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    res.json(user);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};
-
-export const searchQuery = async (req, res, next) => {
-  try {
-    const user = await User.find({ nama: req.params.id });
     res.json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -55,3 +45,7 @@ export const deleteUser = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}

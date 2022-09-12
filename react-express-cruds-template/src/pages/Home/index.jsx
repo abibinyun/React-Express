@@ -2,20 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./index.scss";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [users, setUser] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("");
 
-  const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(searchTerm);
-    navigate(`/users?term=${searchTerm}`);
-    setSearchTerm("");
-  };
+  // const navigate = useNavigate();
 
   useEffect(() => {
     getUsers();
@@ -36,16 +29,24 @@ const Home = () => {
     }
   };
 
+  const searchText = (e) => {
+    setFilter(e.target.value);
+  };
+
+  let dataSearch = users.filter((item) => {
+    return Object.keys(item).some((key) => item[key].toString().toLowerCase().includes(filter.toString().toLowerCase()));
+  });
+
   return (
     <div className="main">
       <Link to="/tambah" className="btn btn-primary">
         Tamah Produk
       </Link>
-      <form onSubmit={handleSubmit}>
-        <div className="search">
-          <input type="text" placeholder="Masukan kata kunci..." onChange={(e) => setSearchTerm(e.target.value)} value={searchTerm} />
-        </div>
-      </form>
+
+      <div className="search">
+        <input type="text" placeholder="Masukan kata kunci..." value={filter} onChange={(e) => searchText(e)} />
+      </div>
+
       <table className="table">
         <thead>
           <tr>
@@ -56,7 +57,7 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((users, index) => (
+          {dataSearch.map((users, index) => (
             <tr key={users._id}>
               <td>{index + 1}</td>
               <td>{users.nama}</td>
